@@ -1,32 +1,46 @@
-import LogoAFMS from "../../../public/logo.png";
+"use client";
 
-function Navbar() {
+import { useState, useEffect } from "react";
+import Link from "next/link";
+import { useRouter, usePathname } from "next/navigation";
+
+function logoTitle() {
   return (
-    <nav class="bg-white dark:bg-gray-900 fixed w-full z-20 top-0 start-0 border-b border-gray-200 dark:border-gray-600">
-      <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-        <a href="#" class="flex items-center space-x-3 rtl:space-x-reverse">
-          <img src="logo.png" class="h-8" alt="Flowbite Logo" />
-          <span class="self-center text-2xl font-semibold whitespace-nowrap text-[#274C5B]">
-            AFMS
-          </span>
-        </a>
-        <div class="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
+    <Link
+      href="/"
+      className="flex items-center space-x-3 rtl:space-x-reverse lg:ml-16 ml-4"
+    >
+      <img src="/logo.png" className="h-8" alt="AFMS Logo" />
+      <span className="self-center text-2xl font-semibold whitespace-nowrap text-[#274C5B]">
+        AFMS
+      </span>
+    </Link>
+  );
+}
+
+export default function Navbar() {
+  const [menuOpen, setMenuOpen] = useState(false);
+  const router = useRouter();
+  const pathname = usePathname()
+
+  const toggleMenu = () => {
+    setMenuOpen(!menuOpen);
+  };
+
+  return (
+    <nav className="bg-white fixed w-full z-20 top-0 start-0 border-b border-gray-200 py-2">
+      <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-3">
+        {logoTitle()}
+        <div className="flex mr-2 lg:order-2 space-x-3 lg:space-x-0 rtl:space-x-reverse">
           <button
+            onClick={toggleMenu}
             type="button"
-            class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-          >
-            Get started
-          </button>
-          <button
-            data-collapse-toggle="navbar-sticky"
-            type="button"
-            class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+            className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg lg:hidden hover:bg-gray-300"
             aria-controls="navbar-sticky"
-            aria-expanded="false"
+            aria-expanded={menuOpen ? "true" : "false"}
           >
-            <span class="sr-only">Open main menu</span>
             <svg
-              class="w-5 h-5"
+              className="w-5 h-5"
               aria-hidden="true"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -34,56 +48,89 @@ function Navbar() {
             >
               <path
                 stroke="currentColor"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
                 d="M1 1h15M1 7h15M1 13h15"
               />
             </svg>
           </button>
         </div>
         <div
-          class="items-center justify-between hidden w-full md:flex md:w-auto md:order-1"
+          className={`items-center justify-between w-full lg:flex lg:w-auto lg:order-1  ${
+            menuOpen ? "block" : "hidden"
+          }`}
           id="navbar-sticky"
         >
-          <ul class="flex flex-col p-4 md:p-0 mt-4 font-medium border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
+          <ul className="flex flex-col pt-4 pl-4 text-[#274C5B] text-sm font-normal lg:p-0 lg:space-x-8 rtl:space-x-reverse lg:flex-row lg:mt-0 lg:border-0 lg:bg-white dark:border-gray-700">
             <li>
               <a
-                href="#"
-                class="block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 md:dark:text-blue-500"
-                aria-current="page"
+                onClick={() => {
+                  router.push("/weather-prediction");
+                }}
+                className={`block py-2 cursor-pointer ${
+                  pathname === "/weather-prediction"
+                    ? "text-black font-semibold"
+                    : "hover:text-black hover:font-semibold"
+                }`}
               >
                 Weather Prediction
               </a>
             </li>
             <li>
               <a
-                href="#"
-                class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
+                onClick={() => {
+                  router.push("/soil-monitoring");
+                }}
+                className={`block py-2 cursor-pointer ${
+                  pathname === "/soil-monitoring"
+                    ? "text-black font-semibold"
+                    : "hover:text-black hover:font-semibold"
+                }`}
               >
                 Soil Moisture Monitoring
               </a>
             </li>
             <li>
               <a
-                href="#"
-                class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
+                onClick={() => {
+                  router.push("/pest-monitoring");
+                }}
+                className={`block py-2 cursor-pointer ${
+                  pathname === "/pest-monitoring"
+                    ? "text-black font-semibold"
+                    : "hover:text-black hover:font-semibold"
+                }`}
               >
                 Pest Monitoring
               </a>
             </li>
             <li>
               <a
-                href="#"
-                class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
+                onClick={() => {
+                  router.push("/servo-led-monitoring");
+                }}
+                className={`block py-2 cursor-pointer ${
+                  pathname === "/servo-led-monitoring"
+                    ? "text-black font-semibold"
+                    : "hover:text-black hover:font-semibold"
+                }`}
               >
                 Servo and LED UV Monitoring
               </a>
             </li>
             <li>
               <a
-                href="#"
-                class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
+                onClick={(e) => {
+                  {
+                    router.push("/our-team");
+                  }
+                }}
+                className={`block py-2 cursor-pointer ${
+                  pathname === "/our-team"
+                    ? "text-black font-semibold"
+                    : "hover:text-black hover:font-semibold"
+                }`}
               >
                 Our Team
               </a>
@@ -94,5 +141,3 @@ function Navbar() {
     </nav>
   );
 }
-
-export default Navbar;
