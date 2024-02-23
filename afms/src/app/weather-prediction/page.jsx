@@ -1,26 +1,124 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import Image from "next/image";
-
+import axios from "axios";
 import Chart from "chart.js/auto";
 import ChartDataLabels from "chartjs-plugin-datalabels";
 
 export default function WeatherPrediction() {
+  const [humidityData, sethumidityData] = useState([]);
+  const [tempData, settempData] = useState([]);
+  const [weatherData, setweatherData] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          "https://data.bmkg.go.id/DataMKG/MEWS/DigitalForecast/DigitalForecast-JawaTimur.xml",
+          {
+            responseType: "text",
+          }
+        );
+        const xmlData = response.data;
+        const parser = new DOMParser();
+        const xmlDoc = parser.parseFromString(xmlData, "text/xml");
+        const areaElement = xmlDoc.querySelector('area[id="501294"]');
+        if (areaElement) {
+          const humidityElement =
+            areaElement.querySelector('parameter[id="hu"]');
+
+          if (humidityElement) {
+            const timerangeHumidity =
+              humidityElement.querySelectorAll("timerange");
+
+            const humidityValues = Array.from(timerangeHumidity).map(
+              (timerangeElement) => ({
+                datetime: formatDate(timerangeElement.getAttribute("datetime")),
+                value: timerangeElement.querySelector("value").textContent,
+              })
+            );
+
+            sethumidityData(humidityValues);
+          } else {
+            setError(
+              'No <parameter> element with id="hu" found inside the <area> element'
+            );
+          }
+
+          const tempElement = areaElement.querySelector('parameter[id="t"]');
+
+          if (tempElement) {
+            const timerangetemp = tempElement.querySelectorAll("timerange");
+            const tempValues = Array.from(timerangetemp).map(
+              (timerangeElement) => ({
+                datetime: formatDate(timerangeElement.getAttribute("datetime")),
+                value: timerangeElement.querySelector("value").textContent,
+              })
+            );
+
+            settempData(tempValues.slice(0,8));
+          } else {
+            setError(
+              'No <parameter> element with id="t" found inside the <area> element'
+            );
+          }
+
+          const weatherElement = areaElement.querySelector(
+            'parameter[id="weather"]'
+          );
+
+          if (weatherElement) {
+            const timerangeweather =
+              weatherElement.querySelectorAll("timerange");
+
+            const weatherValues = Array.from(timerangeweather).map(
+              (timerangeElement) => ({
+                datetime: formatDate(timerangeElement.getAttribute("datetime")),
+                value: timerangeElement.querySelector("value").textContent,
+              })
+            );
+
+            setweatherData(weatherValues);
+          } else {
+            setError(
+              'No <parameter> element with id="weather" found inside the <area> element'
+            );
+          }
+        } else {
+          setError('No <area> element with id="501294" found');
+        }
+
+        setIsLoading(false);
+      } catch (error) {
+        setError(error.message);
+        setIsLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const formatDate = (datetime) => {
+    const year = datetime.substring(0, 4);
+    const month = datetime.substring(4, 6);
+    const day = datetime.substring(6, 8);
+    const hour = datetime.substring(8, 10);
+    const minute = datetime.substring(10, 12);
+    return `${day}-${month}-${year} ${hour}:${minute}:00`;
+  };
+
+  console.log("tempData: ",tempData)
+  console.log("humidityData: ",humidityData)
+  console.log("weatherData: ", weatherData)
+
   Chart.register(ChartDataLabels);
 
-  const data = [
-    { year: 2010, count: 27 },
-    { year: 2011, count: 25 },
-    { year: 2012, count: 22 },
-    { year: 2013, count: 16 },
-    { year: 2014, count: 22 },
-    { year: 2015, count: 16 },
-    { year: 2016, count: 20 },
-    { year: 2017, count: 16 },
-  ];
+  const dataTemperature = tempData;
 
   const chartRef = useRef(null);
 
@@ -32,11 +130,11 @@ export default function WeatherPrediction() {
     const chartData = {
       type: "line",
       data: {
-        labels: data.map((row) => row.year),
+        labels: dataTemperature.map((row) => row.datetime),
         datasets: [
           {
             label: "",
-            data: data.map((row) => row.count),
+            data: dataTemperature.map((row) => row.value),
             borderColor: "#FFCC6E",
             backgroundColor: "#fff",
             fill: false,
@@ -48,9 +146,9 @@ export default function WeatherPrediction() {
               color: "white",
               font: {
                 weight: "bold",
-                size: 14, 
+                size: 14,
               },
-              formatter: function(value, context) {
+              formatter: function (value, context) {
                 return value + "°";
               },
             },
@@ -59,7 +157,10 @@ export default function WeatherPrediction() {
       },
       options: {
         layout: {
-          padding: 30,
+          padding: {
+            right: 20,
+            left: 20,
+          },
         },
         scales: {
           x: {
@@ -69,13 +170,21 @@ export default function WeatherPrediction() {
             beginAtZero: true,
             display: false,
             ticks: {
-              stepSize: 20,
+              stepSize: 25,
             },
           },
         },
         plugins: {
           legend: false,
-          
+          tooltip: {
+            enabled: true,
+            callbacks: {
+              label: function (context) {
+                var label = "Temperature: " + context.parsed.y + "°C";
+                return label;
+              },
+            },
+          },
         },
       },
     };
@@ -85,7 +194,7 @@ export default function WeatherPrediction() {
       const newChart = new Chart(chartElement, chartData);
       chartRef.current = newChart;
     }
-  }, [data]);
+  }, [dataTemperature]);
 
   return (
     <>
