@@ -49,7 +49,10 @@ export default function WeatherPrediction() {
               font: {
                 weight: "bold",
                 size: 14, 
-              }
+              },
+              formatter: function(value, context) {
+                return value + "°";
+              },
             },
           },
         ],
