@@ -1,12 +1,16 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
-import Chart from "chart.js";
 import Image from "next/image";
 
+import Chart from "chart.js/auto";
+import ChartDataLabels from "chartjs-plugin-datalabels";
+
 export default function WeatherPrediction() {
+  Chart.register(ChartDataLabels);
+
   const data = [
     { year: 2010, count: 27 },
     { year: 2011, count: 25 },
@@ -18,61 +22,66 @@ export default function WeatherPrediction() {
     { year: 2017, count: 16 },
   ];
 
+  const chartRef = useRef(null);
+
   useEffect(() => {
-    (async function () {
-      const chartData = {
-        type: "line",
-        data: {
-          labels: data.map((row) => row.year),
-          datasets: [
-            {
-              label: "",
-              data: data.map((row) => row.count),
-              borderColor: "#FFCC6E",
-              backgroundColor: "#4E4E4E",
-              fill: false,
+    if (chartRef.current) {
+      chartRef.current.destroy();
+    }
+
+    const chartData = {
+      type: "line",
+      data: {
+        labels: data.map((row) => row.year),
+        datasets: [
+          {
+            label: "",
+            data: data.map((row) => row.count),
+            borderColor: "#FFCC6E",
+            backgroundColor: "#fff",
+            fill: false,
+            tension: 0.4,
+            datalabels: {
+              display: true,
+              align: "end",
+              anchor: "end",
+              color: "white",
+              font: {
+                weight: "bold",
+                size: 14, 
+              }
             },
-          ],
-        },
-        options: {
-          scales: {
-            xAxes: [
-              {
-                display: false,
-              },
-            ],
-            yAxes: [
-              {
-                ticks: {
-                  beginAtZero: true,
-                  stepSize: 5,
-                },
-                display: false,
-              },
-            ],
           },
-          legend: {
+        ],
+      },
+      options: {
+        layout: {
+          padding: 30,
+        },
+        scales: {
+          x: {
             display: false,
           },
-          tooltips: {
-            enabled: true,
-            mode: "index",
-            intersect: false,
-            displayColors: false,
-            callbacks: {
-              label: function (tooltipItem, data) {
-                return `Count: ${tooltipItem.yLabel}`;
-              },
+          y: {
+            beginAtZero: true,
+            display: false,
+            ticks: {
+              stepSize: 20,
             },
           },
         },
-      };
+        plugins: {
+          legend: false,
+          
+        },
+      },
+    };
 
-      const chartElement = document.getElementById("acquisitions");
-      if (chartElement) {
-        new Chart(chartElement, chartData);
-      }
-    })();
+    const chartElement = document.getElementById("weather");
+    if (chartElement) {
+      const newChart = new Chart(chartElement, chartData);
+      chartRef.current = newChart;
+    }
   }, [data]);
 
   return (
@@ -94,12 +103,11 @@ export default function WeatherPrediction() {
           </div>
           <div className="flex-auto bg-[#4E4E4E] rounded-b-3xl">
             <div className="relative ">
-              <canvas id="acquisitions"></canvas>
+              <canvas id="weather"></canvas>
             </div>
           </div>
         </div>
       </div>
-
       <Footer />
     </>
   );
