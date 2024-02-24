@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import { useRouter } from "next/navigation";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import Image from "next/image";
@@ -8,12 +9,30 @@ import axios from "axios";
 import Chart from "chart.js/auto";
 import ChartDataLabels from "chartjs-plugin-datalabels";
 
+import {
+  CloudSunFill,
+  CloudyFill,
+  CloudsFill,
+  CloudLightningRainFill,
+  CloudHazeFill,
+  CloudFog2Fill,
+  CloudFogFill,
+  CloudRainHeavyFill,
+  CloudRainFill,
+  CloudDrizzleFill,
+} from "react-bootstrap-icons";
+
 export default function WeatherPrediction() {
   const [humidityData, sethumidityData] = useState([]);
   const [tempData, settempData] = useState([]);
   const [weatherData, setweatherData] = useState([]);
+  const [areaData, setAreaData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  const [fixWeatherCondition, setFixWeatherCondition] = useState();
+
+  const router = useRouter();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -28,6 +47,9 @@ export default function WeatherPrediction() {
         const parser = new DOMParser();
         const xmlDoc = parser.parseFromString(xmlData, "text/xml");
         const areaElement = xmlDoc.querySelector('area[id="501294"]');
+
+        setAreaData(areaElement.getAttribute("description"));
+
         if (areaElement) {
           const humidityElement =
             areaElement.querySelector('parameter[id="hu"]');
@@ -51,7 +73,6 @@ export default function WeatherPrediction() {
           }
 
           const tempElement = areaElement.querySelector('parameter[id="t"]');
-
           if (tempElement) {
             const timerangetemp = tempElement.querySelectorAll("timerange");
             const tempValues = Array.from(timerangetemp).map(
@@ -61,7 +82,7 @@ export default function WeatherPrediction() {
               })
             );
 
-            settempData(tempValues.slice(0,8));
+            settempData(tempValues.slice(0, 9));
           } else {
             setError(
               'No <parameter> element with id="t" found inside the <area> element'
@@ -71,7 +92,6 @@ export default function WeatherPrediction() {
           const weatherElement = areaElement.querySelector(
             'parameter[id="weather"]'
           );
-
           if (weatherElement) {
             const timerangeweather =
               weatherElement.querySelectorAll("timerange");
@@ -83,7 +103,7 @@ export default function WeatherPrediction() {
               })
             );
 
-            setweatherData(weatherValues);
+            setweatherData(weatherValues.slice(0, 9));
           } else {
             setError(
               'No <parameter> element with id="weather" found inside the <area> element'
@@ -112,21 +132,18 @@ export default function WeatherPrediction() {
     return `${day}-${month}-${year} ${hour}:${minute}:00`;
   };
 
-  console.log("tempData: ",tempData)
-  console.log("humidityData: ",humidityData)
-  console.log("weatherData: ", weatherData)
+  console.log("tempData: ", tempData);
+  console.log("humidityData: ", humidityData);
+  console.log("weatherData: ", weatherData);
+  var dataTemperature = tempData;
 
   Chart.register(ChartDataLabels);
-
-  const dataTemperature = tempData;
-
   const chartRef = useRef(null);
 
   useEffect(() => {
     if (chartRef.current) {
       chartRef.current.destroy();
     }
-
     const chartData = {
       type: "line",
       data: {
@@ -149,7 +166,7 @@ export default function WeatherPrediction() {
                 size: 14,
               },
               formatter: function (value, context) {
-                return value + "°";
+                return value + "°C";
               },
             },
           },
@@ -158,10 +175,14 @@ export default function WeatherPrediction() {
       options: {
         layout: {
           padding: {
+            top: 20,
             right: 20,
+            bottom: 20,
             left: 20,
           },
         },
+        responsive: true,
+        maintainAspectRatio: false,
         scales: {
           x: {
             display: false,
@@ -170,7 +191,7 @@ export default function WeatherPrediction() {
             beginAtZero: true,
             display: false,
             ticks: {
-              stepSize: 25,
+              stepSize: 20,
             },
           },
         },
@@ -196,27 +217,195 @@ export default function WeatherPrediction() {
     }
   }, [dataTemperature]);
 
+  const getCurrentTime = () => {
+    return new Date();
+  };
+
+  const findCurrentTimeIndex = (currentTime, tempData, weatherData) => {
+    for (let i = 0; i < tempData.length; i++) {
+      const dateString = tempData[i].datetime;
+      const [day, month, year, hour, minute, second] =
+        dateString.split(/[\s:-]/);
+
+      const tempTime = new Date(year, month - 1, day, hour, minute, second);
+
+      console.log("tempTime: ", tempTime);
+      if (currentTime <= tempTime) {
+        return i - 1;
+      }
+    }
+    return -1;
+  };
+
+  const formatDateToString = (date) => {
+    const days = [
+      "Sunday",
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday",
+    ];
+    const months = [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec",
+    ];
+
+    const day = days[date.getDay()];
+    const dateOfMonth = date.getDate();
+    const month = months[date.getMonth()];
+    const year = date.getFullYear();
+
+    return `${day} | ${dateOfMonth} ${month} ${year}`;
+  };
+
+  const currentTime = getCurrentTime();
+  const currentIndex = findCurrentTimeIndex(currentTime, tempData);
+
+  const currentTempValue =
+    currentIndex !== -1 ? tempData[currentIndex].value : "null";
+
+  console.log("Nilai temperature saat ini:", currentTempValue);
+  const formattedDate = formatDateToString(currentTime);
+
+  const weatherInformation = (data) => {
+    if (data == 0) {
+      return "Clear Skies";
+    } else if (data == 1 || data == 2) {
+      return "Partly Cloudly";
+    } else if (data == 3) {
+      return "Mostly Cloudy";
+    } else if (data == 4) {
+      return "Overcast";
+    } else if (data == 5) {
+      return "Haze";
+    } else if (data == 10) {
+      return "Smoke";
+    } else if (data == 45) {
+      return "Fog";
+    } else if (data == 60) {
+      return "Light Rain";
+    } else if (data == 61) {
+      return "Rain";
+    } else if (data == 63) {
+      return "Heavy Rain";
+    } else if (data == 80) {
+      return "Isolated Shower";
+    } else if (data == 95 || data == 97) {
+      return "Severe Thunderstorm";
+    }
+  };
+
+  const weatherIcon = (data) => {
+    if (data == 0) {
+      return <BrightnessHighFill color="#4E4E4E" size={150} />;
+    } else if (data == 1 || data == 2) {
+      return <CloudSunFill color="#4E4E4E" size={150} />;
+    } else if (data == 3) {
+      return <CloudyFill color="#4E4E4E" size={150} />;
+    } else if (data == 4) {
+      return <CloudsFill color="#4E4E4E" size={150} />;
+    } else if (data == 5) {
+      return <CloudHazeFill color="#4E4E4E" size={150} />;
+    } else if (data == 10) {
+      return <CloudFogFill color="#4E4E4E" size={150} />;
+    } else if (data == 45) {
+      return <CloudFog2Fill color="#4E4E4E" size={150} />;
+    } else if (data == 60) {
+      return <CloudDrizzleFill color="#4E4E4E" size={150} />;
+    } else if (data == 61) {
+      return <CloudRainFill color="#4E4E4E" size={150} />;
+    } else if (data == 63) {
+      return <CloudRainHeavyFill color="#4E4E4E" size={150} />;
+    } else if (data == 80) {
+      return <CloudRainHeavyFill color="#4E4E4E" size={150} />;
+    } else if (data == 95 || data == 97) {
+      return <CloudLightningRainFill color="#4E4E4E" size={150} />;
+    }
+  };
+
+  const currentWeatherValue =
+    currentIndex !== -1 ? weatherData[currentIndex].value : "null";
+
+  var weatherFix = weatherInformation(parseInt(currentWeatherValue));
+  console.log(weatherFix);
+
+  useEffect(() => {
+    if (currentIndex !== -1) {
+      () => router.reload();
+    }
+  }, [currentIndex]);
+
   return (
     <>
       <Navbar />
-      <div className="mt-24 mb-8 flex flex-col justify-center items-center">
-        <div className="relative flex flex-col w-3/5">
-          <div className="rounded-t-3xl mb-0 px-6 py-6 bg-[#4E4E4E]">
-            <div className="flex flex-wrap items-center">
-              <div className="relative w-full max-w-full flex-grow flex-1">
-                <div className="flex gap-2 items-center">
-                  <Image src="/clock.svg" width={20} height={20} alt="clock" />
-                  <h6 className="text-white text-xs font-semibold ">
-                    24-hour forecast
-                  </h6>
+      <div className="mt-28 mb-8 flex flex-row gap-2 justify-between mx-20 my-10">
+        <div className="flex flex-col w-3/4 gap-6" data-aos="fade-up">
+          <div className="flex flex-col gap-2">
+            <div className="flex flex-row">
+              <Image src="location-icon.svg" width={20} height={20} />
+              <div className="text-[#4E4E4E] font-normal text-sm">
+                {areaData}
+              </div>
+            </div>
+
+            <div className="flex flex-col gap-4 text-[#4E4E4E] ">
+              <div className="text-xl font-medium">{weatherFix}</div>
+              <div className="flex flex-col">
+                <div className="text-[40px] font-semibold">
+                  {currentTempValue}°C
                 </div>
+                <div className="text-xs">{formattedDate}</div>
               </div>
             </div>
           </div>
-          <div className="flex-auto bg-[#4E4E4E] rounded-b-3xl">
-            <div className="relative ">
-              <canvas id="weather"></canvas>
+
+          <div className="relative flex flex-col w-full">
+            <div className="rounded-t-3xl mb-0 px-4 py-4 bg-[#4E4E4E]">
+              <div className="flex flex-wrap items-center">
+                <div className="relative w-full max-w-full flex-grow flex-1">
+                  <div className="flex gap-2 items-center">
+                    <Image
+                      src="/clock.svg"
+                      width={20}
+                      height={20}
+                      alt="clock"
+                    />
+                    <h6 className="text-xs font-semibold text-white">
+                      24-hour forecast
+                    </h6>
+                  </div>
+                </div>
+              </div>
             </div>
+            <div className="flex justify-center items-center bg-[#4E4E4E] rounded-b-3xl h-60 ">
+              <div className="w-full">
+                <canvas id="weather"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="w-1/5 flex flex-col items-center justify-end" >
+          <div>{weatherIcon(currentWeatherValue)}</div>
+          <div className="flex flex-col gap-4 bg-[#4E4E4E] py-6 px-16 text-white rounded-xl">
+            <p>dashboard</p>
+            <p>dashboard</p>
+            <p>dashboard</p>
+            <p>dashboard</p>
+            <p>dashboard</p>
+            <p>dashboard</p>
+            <p>dashboard</p>
           </div>
         </div>
       </div>

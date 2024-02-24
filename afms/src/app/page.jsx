@@ -25,7 +25,7 @@ export default function Home() {
             className="z-0"
             data-aos="fade-right"
           />
-          <div className="absolute z-10 right-12 top-12 pl-8 pr-6 pt-8 pb-8 bg-white text-[#274C5B] text-wrap rounded-xl flex justify-center items-center h-100 w-2/5" data-aos="zoom-in-up">
+          <div className="absolute z-10 right-12 top-12 pl-8 pr-2 pt-8 pb-8 bg-white text-[#274C5B] text-wrap rounded-xl flex justify-center items-center h-100 w-2/5" data-aos="zoom-in-up">
             <div className="flex flex-col gap-2">
               <p className={`${yellowtail.className} text-2xl text-[#7EB693]`}>
                 Eco Friendly
