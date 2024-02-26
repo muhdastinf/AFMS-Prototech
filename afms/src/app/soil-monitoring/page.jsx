@@ -8,16 +8,7 @@ export default function SoilMonitor() {
     <>
       <Navbar />
       <div className="mt-24 mb-8 flex flex-col justify-center items-center">
-        <h1>Ini Soil Monitoring</h1>
-        <h1>Ini Soil Monitoring</h1>
-        <h1>Ini Soil Monitoring</h1>
-        <h1>Ini Soil Monitoring</h1>
-        <h1>Ini Soil Monitoring</h1>
-        <h1>Ini Soil Monitoring</h1>
-        <h1>Ini Soil Monitoring</h1>
-        <h1>Ini Soil Monitoring</h1>
-        <h1>Ini Soil Monitoring</h1>
-        <h1>Ini Soil Monitoring</h1>
+      <embed src="https://thingsboard.cloud/dashboard/fc194980-d118-11ee-a2dd-dda04d5a084f?publicId=410c63f0-d11a-11ee-a550-01ba59c8406a" className="w-[1000px] h-[450px] rounded-3xl" data-aos="fade-up"></embed>
       </div>
 
       <Footer />
