@@ -21,7 +21,7 @@ function logoTitle() {
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const router = useRouter();
-  const pathname = usePathname()
+  const pathname = usePathname();
 
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
@@ -31,11 +31,11 @@ export default function Navbar() {
     <nav className="bg-white fixed w-full z-20 top-0 start-0 border-b border-gray-200 py-2">
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-3">
         {logoTitle()}
-        <div className="flex mr-2 lg:order-2 space-x-3 lg:space-x-0 rtl:space-x-reverse">
+        <div className="flex mr-2 xl:order-2 space-x-3 xl:space-x-0 rtl:space-x-reverse">
           <button
             onClick={toggleMenu}
             type="button"
-            className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg lg:hidden hover:bg-gray-300"
+            className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg xl:hidden hover:bg-gray-300"
             aria-controls="navbar-sticky"
             aria-expanded={menuOpen ? "true" : "false"}
           >
@@ -57,12 +57,12 @@ export default function Navbar() {
           </button>
         </div>
         <div
-          className={`items-center justify-between w-full lg:flex lg:w-auto lg:order-1  ${
+          className={`items-center justify-between w-full xl:flex xl:w-auto xl:order-1  ${
             menuOpen ? "block" : "hidden"
           }`}
           id="navbar-sticky"
         >
-          <ul className="flex flex-col pt-4 pl-4 text-[#274C5B] text-sm font-normal lg:p-0 lg:space-x-8 rtl:space-x-reverse lg:flex-row lg:mt-0 lg:border-0 lg:bg-white dark:border-gray-700">
+          <ul className="flex flex-col pt-4 pl-4 text-[#274C5B] text-sm font-normal xl:p-0 xl:space-x-8 rtl:space-x-reverse xl:flex-row xl:mt-0 xl:border-0 xl:bg-white dark:border-gray-700">
             <li>
               <a
                 onClick={() => {
@@ -135,6 +135,12 @@ export default function Navbar() {
                 Our Team
               </a>
             </li>
+            <button
+              type="button"
+              class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+            >
+              Get started
+            </button>
           </ul>
         </div>
       </div>

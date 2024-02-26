@@ -1,0 +1,31 @@
+.container {
+  background-image: url(/image14.png);
+  max-height: 898px;
+  background-repeat: no-repeat;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  background-position: center center;
+}
+
+.c404 {
+  font-size: 12vw;
+  font-weight: bold;
+  color: #20382b;
+}
+
+.NotFound {
+  color: #e0d480;
+  font-size: 3.5vw;
+  font-weight: bold;
+}
+
+.Paragraf {
+  color: #e0d480;
+  font-size: 1vw;
+}
+
+.HomepageContainer {
+  box-sizing: border-box;
+}
