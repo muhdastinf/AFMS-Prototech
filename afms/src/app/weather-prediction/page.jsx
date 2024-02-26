@@ -8,6 +8,7 @@ import Image from "next/image";
 import axios from "axios";
 import Chart from "chart.js/auto";
 import ChartDataLabels from "chartjs-plugin-datalabels";
+import annotationPlugin from 'chartjs-plugin-annotation';
 
 import {
   CloudSunFill,
@@ -202,6 +203,7 @@ export default function WeatherPrediction() {
 
   var dataTemperature = tempData;
   Chart.register(ChartDataLabels);
+  Chart.register(annotationPlugin);
   const chartRef = useRef(null);
 
   dataTemperature.map((data) => {
@@ -445,7 +447,7 @@ export default function WeatherPrediction() {
             </div>
           </div>
         </div>
-        <div className="w-1/5 flex flex-col items-center justify-end gap-4">
+        <div className="w-1/5 flex flex-col items-center justify-end gap-4" data-aos="fade-up">
           <div className="flex items-start">
             {weatherIcon(currentWeatherValue, { size: 135 })}
           </div>
