@@ -1,20 +1,41 @@
-export default function CardImage({ data, handleSave, handleDelete }) {
+export default function CardImage({ containerName, imageName, handleSave, handleDelete }) {
+
+  const formatDate = (datetime) => {
+    if (datetime[0] == "n") {
+      datetime = datetime.slice(1);
+    }
+    const year = datetime.substring(0, 4);
+    const month = datetime.substring(4, 6);
+    const day = datetime.substring(6, 8);
+    return `${day}-${month}-${year}`;
+  };
+
+  const formatTime = (datetime) => {
+    if (datetime[0] == "n") {
+      datetime = datetime.slice(1);
+    }
+    const hour = datetime.substring(8, 10);
+    const minute = datetime.substring(10, 12);
+    const second = datetime.substring(12, 14);
+    return `${hour}:${minute}:${second}`;
+  };
+
   return (
     <div class="w-[11.4rem] h-[20.5rem] md:w-[19rem] md:h-[28rem] bg-[#E5E5E5] border border-gray-200 rounded-xl shadow dark:bg-gray-800 dark:border-gray-700">
       <a href="#">
-        <img class="rounded-t-lg" src="image 16.png" alt="Pest" />
+        <img class="rounded-t-lg" src={`https://afmsprototech.blob.core.windows.net/${containerName}/${imageName}`} alt="Pest" />
       </a>
       <div class="p-5">
         <a href="#">
           <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-            Date
+            Date : {formatDate(imageName)}
           </h5>
           <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-            Time
+            Time : {formatTime(imageName)}
           </h5>
         </a>
         <p class="mb-3 font-normal text-gray-700 text-center dark:text-gray-400">
-          Detected or Not Detected
+          {imageName[0] === "n" ? "Not Detected" : "Detected"}
         </p>
         <div className="flex space-x-4 justify-center">
           <a
