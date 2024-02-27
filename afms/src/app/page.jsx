@@ -23,11 +23,11 @@ export default function Home() {
             height={400}
             alt="Landing Page"
             className={`z-0 ${style.ResponsiveImage}`}
-            // data-aos="fade-right"
+            data-aos="fade-right"
           />
           <div
             className="absolute opacity-90 md:opacity-100 top-6 right-8 ml-6 z-6 pt-6 pr-6 pl-6 pb-6 md:z-10 md:right-12 md:top-12 md:pl-8 md:pr-2 md:pt-8 md:pb-8 bg-white text-[#274C5B] text-wrap rounded-xl flex justify-center items-center md:h-100 md:w-2/5"
-            // data-aos="zoom-in-up"
+            data-aos="zoom-in-up"
           >
             <div className="flex flex-col gap-1 md:gap-2">
               <p
