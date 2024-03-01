@@ -7,7 +7,7 @@ export default function OurTeam() {
   return (
     <>
       <Navbar />
-      <div className="mt-24 mb-8 flex flex-col justify-center items-center">
+      <div className="mt-24 mb-8 flex flex-row md:flex-col justify-center items-center">
         <div className={styles.container}>
           <div
             className={`${styles.box} ${styles.box1}`}

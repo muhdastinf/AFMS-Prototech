@@ -39,10 +39,10 @@ export default function CardImage({
       </a>
       <div class="p-5">
         <a href="#">
-          <h5 class="mb-2 text-md md:text-xl font-bold tracking-tight text-gray-900 dark:text-white">
+          <h5 class="mb-2 text-md md:text-xl font-bold tracking-tight text-[#274C5B] dark:text-white">
             Date : {formatDate(imageName)}
           </h5>
-          <h5 class="mb-2 md:mb-3 text-md md:text-xl font-bold tracking-tight text-gray-900 dark:text-white">
+          <h5 class="mb-2 md:mb-3 text-md md:text-xl font-bold tracking-tight text-[#274C5B] dark:text-white">
             Time : {formatTime(imageName)}
           </h5>
         </a>

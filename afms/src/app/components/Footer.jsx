@@ -7,8 +7,8 @@ export default function Footer() {
   return (
     <footer className="bg-white dark:bg-gray-900" data-aos="fade-up">
       <div className="mx-auto w-full max-w-screen-xl">
-        <div className="grid grid-cols-2 gap-8 px-4 py-6 lg:py-8 md:grid-cols-3">
-          <div className="justify-self-end text-end border-r-2 px-8">
+        <div className="grid grid-row gap-8 px-4 py-6 lg:py-8 md:grid-cols-3">
+          <div className="justify-self-start md:justify-self-end text-start md:text-end border-l-2 md:border-l-0 md:border-r-2 px-4 md:px-8">
             <h2 className="mb-6 text-xl font-bold text-[#274C5B] dark:text-white">
               Contact Us
             </h2>
@@ -25,14 +25,14 @@ export default function Footer() {
                 <br />
                 6969696969
               </li>
-              <li className="mb-4">
+              <li>
                 <b>Address</b>
                 <br />
                 Bojong Koneng
               </li>
             </ul>
           </div>
-          <div className="justify-self-center text-center">
+          <div className="justify-self-end md:justify-self-center text-end md:text-center px-4 md:px-0 border-r-2 md:border-r-0">
             <h2 className="mb-3 text-md md:mb-6 md:text-xl font-bold text-[#274C5B] uppercase dark:text-white">
               AFMS
             </h2>
@@ -139,7 +139,7 @@ export default function Footer() {
               </li>
             </ul>
           </div>
-          <div className="border-l-2 px-4 md:px-8">
+          <div className="border-l-2 md:border-l-0 px-4 md:px-8">
             <h2 className="mb-3 text-md md:mb-6 md:text-xl font-bold text-[#274C5B] dark:text-white">
               Utility Pages
             </h2>
