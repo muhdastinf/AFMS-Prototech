@@ -46,7 +46,7 @@ const CardComponents = ({ isActive, type }) => {
       <div className="p-5">
         <a href="#">
           <h5 className="mb-2 text-md md:text-xl font-bold tracking-tight text-[#274C5B] dark:text-white">
-            {type === "Servo" ? "Servo Motor" : "LED UV"}
+            {type === "servo" ? "Servo Motor" : "LED UV"}
           </h5>
         </a>
         <p
@@ -56,7 +56,7 @@ const CardComponents = ({ isActive, type }) => {
             isActive ? "text-[#00A224]" : "text-[#FF0000]"
           }`}
         >
-          {isActive ? "Activated" : "Deactivated"}
+          {isActive ? "Activated" : "Not active"}
         </p>
         <p
           className={`${robotoMono.className} mb-3 md:mb-4 font-normal text-xs md:text-base`}

@@ -37,10 +37,12 @@ export default function ServoLEDMonitor() {
     <>
       <Navbar />
       <div className="mt-24 mb-8 flex flex-col justify-center items-center">
-        <div className={`text-[2vw] mb-6 text-[#274C5B] font-bold`}>
+        <div
+          className={`text-2xl md:text-4xl mb-4 md:mb-6 text-[#274C5B] font-bold`}
+        >
           Hardware Monitoring
         </div>
-        <div className="grid grid-cols-2 space-x-8">
+        <div className="grid grid-cols-2 space-x-2 md:space-x-8">
           <CardComponents isActive={isActiveServo} type="servo" />
           <CardComponents isActive={isActiveLED} type="leduv" />
         </div>
