@@ -89,7 +89,7 @@ export default function WeatherPrediction() {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          "https://data.bmkg.go.id/DataMKG/MEWS/DigitalForecast/DigitalForecast-JawaTimur.xml",
+          "https://data.bmkg.go.id/DataMKG/MEWS/DigitalForecast/DigitalForecast-JawaBarat.xml",
           {
             responseType: "text",
           }
@@ -97,7 +97,7 @@ export default function WeatherPrediction() {
         const xmlData = response.data;
         const parser = new DOMParser();
         const xmlDoc = parser.parseFromString(xmlData, "text/xml");
-        const areaElement = xmlDoc.querySelector('area[id="501294"]');
+        const areaElement = xmlDoc.querySelector('area[id="501212"]');
 
         setAreaData(areaElement.getAttribute("description"));
 
