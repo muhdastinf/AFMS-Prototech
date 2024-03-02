@@ -77,6 +77,12 @@ export default function WeatherPrediction() {
   const router = useRouter();
 
   const [currentDateTime, setCurrentDateTime] = useState("");
+  const slides = [
+    "https://i.ibb.co/ncrXc2V/1.png",
+    "https://i.ibb.co/B3s7v4h/2.png",
+    "https://i.ibb.co/XXR8kzF/3.png",
+    "https://i.ibb.co/yg7BSdM/4.png",
+  ];
 
   useEffect(() => {
     if (weatherData.length > 0) {
@@ -117,7 +123,7 @@ export default function WeatherPrediction() {
               })
             );
 
-            sethumidityData(humidityValues);
+            sethumidityData(humidityValues.slice(0, 9));
           } else {
             setError(
               'No <parameter> element with id="hu" found inside the <area> element'
@@ -279,7 +285,7 @@ export default function WeatherPrediction() {
                   currentIndex !== -1
                     ? parseInt(dataTemperature[currentIndex].value)
                     : 0,
-                backgroundColor: "rgba(255, 99, 132, 0.25)",
+                backgroundColor: "rgba(255, 99, 132, 0.50)",
               },
             },
           },
@@ -328,6 +334,8 @@ export default function WeatherPrediction() {
   const currentIndex = findCurrentTimeIndex(currentTime, tempData);
   const currentTempValue =
     currentIndex !== -1 ? tempData[currentIndex].value : "null";
+  const currentHumidityValue =
+    currentIndex !== -1 ? humidityData[currentIndex].value : "null";
   const formattedDate = formatDateToString(currentTime);
 
   const weatherInformation = (data) => {
@@ -392,6 +400,7 @@ export default function WeatherPrediction() {
   var weatherFix = weatherInformation(parseInt(currentWeatherValue));
   console.log("weatherData: ", weatherData);
   console.log("tempData: ", tempData);
+  console.log("humidityData: ", humidityData);
 
   return (
     <>
@@ -451,20 +460,37 @@ export default function WeatherPrediction() {
           </div>
         </div>
         <div
-          className="my-6 md:my-0 md:w-1/5 flex flex-row-reverse md:flex-col items-center justify-center md:justify-end gap-4"
+          className="my-6 md:my-0 md:w-1/4 flex flex-row-reverse md:flex-col items-center justify-center md:justify-end gap-4"
           // data-aos="fade-up"
         >
-          <div className="flex items-start">
+          <div className="flex items-start ">
             {weatherIcon(currentWeatherValue, { size: 135 })}
           </div>
-          <div className="flex flex-col gap-4 bg-[#4E4E4E] py-6 px-16 text-white rounded-3xl">
-            <p>dashboard</p>
-            <p>dashboard</p>
-            <p>dashboard</p>
-            <p>dashboard</p>
-            <p>dashboard</p>
-            <p>dashboard</p>
-            <p>dashboard</p>
+          <div className="md:h-2/3 md:w-5/6 bg-[#4E4E4E] rounded-3xl relative">
+            <div className="absolute inset-0 flex items-end">
+              <Image
+                src="/dashboard-vector.png"
+                width={250}
+                height={300}
+                className=""
+              />
+            </div>
+            <div className="absolute inset-0 flex flex-col p-3 items-start justify-start text-white text-sm gap-2">
+              <div className="">
+                <p className="font-semibold">Current Weather</p>
+                <p className="font-light">{weatherFix}</p>
+              </div>
+
+              <div>
+                <p className="font-semibold">Temperature</p>
+                <p className="font-light">{currentTempValue}</p>
+              </div>
+
+              <div>
+                <p className="font-semibold">Humidity</p>
+                <p className="font-light">{currentHumidityValue}</p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
