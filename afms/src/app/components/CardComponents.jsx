@@ -3,7 +3,7 @@ import { Roboto_Mono } from "next/font/google";
 
 const robotoMono = Roboto_Mono({ weight: "400", subsets: ["latin"] });
 
-const CardComponents = ({ isActive, type }) => {
+const CardComponents = ({ isActive, type, targetHumidity}) => {
   const [currentImage, setCurrentImage] = useState(1);
 
   useEffect(() => {
@@ -58,11 +58,15 @@ const CardComponents = ({ isActive, type }) => {
         >
           {isActive ? "Activated" : "Not active"}
         </p>
-        <p
-          className={`${robotoMono.className} mb-3 md:mb-4 font-normal text-xs md:text-base`}
-        >
-          Until Humidity: xx%
-        </p>
+        {isActive && type == "servo" ? (
+          <p
+            className={`${robotoMono.className} mb-3 md:mb-4 font-normal text-xs md:text-base text-white`}
+          >
+            Until Humidity:{targetHumidity}%
+          </p>
+        ) : (
+          ""
+        )}
       </div>
     </div>
   );
