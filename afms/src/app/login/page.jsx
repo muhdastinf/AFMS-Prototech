@@ -25,7 +25,7 @@ export default function Login() {
           />
         </div>
 
-        <form className="flex-row md:w-[22rem] w-[30rem] md:mt-20 mt-8 mb-4">
+        <form className="flex-row md:w-[22rem] w-[30rem] md:mt-20 mt-8 mb-10">
           <div className="font-bold text-xl mb-5">Sign In</div>
           <div className="mb-5">
             <input
