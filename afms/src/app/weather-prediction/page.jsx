@@ -408,7 +408,7 @@ export default function WeatherPrediction() {
       <div className="mt-28 mb-8 flex flex-col md:flex-row gap-2 justify-between mx-6 md:mx-20 md:my-24">
         <div
           className="flex flex-col md:w-3/4 gap-6"
-          // data-aos="fade-up"
+          data-aos="fade-up"
         >
           <div className="flex flex-col gap-2">
             <div className="flex flex-row">
