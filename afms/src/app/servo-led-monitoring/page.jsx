@@ -20,34 +20,31 @@ export default function ServoLEDMonitor() {
 
   // Fungsi untuk mengganti status aktivitas secara otomatis
 
-  const onMessage = (message) =>{
-    if(message.topic == "hafidzganteng/irrigation"){
+  const onMessage = (message) => {
+    if (message.topic == "hafidzganteng/irrigation") {
       const intValue = parseInt(message.payloadString, 10);
-      setTargetHumidity(Math.round(map(intValue, 4096, 0, 0, 100)));
+      if (intValue != -1) {
+        setTargetHumidity(Math.round(map(intValue, 4096, 0, 0, 100)));
+      } else {
+        setIsActiveServo(false);
+      }
+    } else if (message.topic == "hafidzganteng/servo") {
+      if (message.payloadString == "true") {
+        setIsActiveServo(true);
+      } else {
+        setIsActiveServo(false);
+      }
+    } else if (message.topic == "hafidzganteng/detectpest") {
+      if (message.payloadString == "yes") {
+        setIsActiveLED(true);
+      } else {
+        setIsActiveLED(false);
+      }
     }
-    else if(message.topic == "hafidzganteng/servo"){
-      if(message.payloadString == "true"){
-        setIsActiveServo(true)
-      }
-      else{
-        setIsActiveServo(false)
-      }
-    }
-    else if(message.topic == "hafidzganteng/detectpest"){
-      if(message.payloadString == "y"){
-        setIsActiveLED(true)
-      }
-      else{
-        setIsActiveLED(false)
-      }
-    }
-    
-    
-  }
+  };
 
   // Panggil toggleActivity saat komponen pertama kali dimuat
   useEffect(() => {
-
     //MQTT Over Websocket
     const client = new Client("broker.hivemq.com", Number(8000), "ClientID");
     // Check if the client is already connected
@@ -80,7 +77,11 @@ export default function ServoLEDMonitor() {
           Hardware Monitoring
         </div>
         <div className="grid grid-cols-2 space-x-2 md:space-x-8">
-          <CardComponents isActive={isActiveServo} type="servo" targetHumidity={targetHumidity} />
+          <CardComponents
+            isActive={isActiveServo}
+            type="servo"
+            targetHumidity={targetHumidity}
+          />
           <CardComponents isActive={isActiveLED} type="leduv" />
         </div>
       </div>

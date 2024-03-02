@@ -2,12 +2,7 @@ import { Roboto_Mono } from "next/font/google";
 
 const robotoMono = Roboto_Mono({ weight: "400", subsets: ["latin"] });
 
-export default function CardImage({
-  containerName,
-  imageName,
-  handleSave,
-  handleDelete,
-}) {
+export default function CardImage({ containerName, imageName, handleDelete }) {
   const formatDate = (datetime) => {
     if (datetime[0] == "n") {
       datetime = datetime.slice(1);
@@ -39,10 +34,10 @@ export default function CardImage({
       </a>
       <div class="p-5">
         <a href="#">
-          <h5 class="mb-2 text-md md:text-xl font-bold tracking-tight text-[#274C5B] dark:text-white">
+          <h5 class="mb-2 text-sm md:text-xl font-bold tracking-tight text-[#274C5B] dark:text-white">
             Date : {formatDate(imageName)}
           </h5>
-          <h5 class="mb-2 md:mb-3 text-md md:text-xl font-bold tracking-tight text-[#274C5B] dark:text-white">
+          <h5 class="mb-2 md:mb-3 text-sm md:text-xl font-bold tracking-tight text-[#274C5B] dark:text-white">
             Time : {formatTime(imageName)}
           </h5>
         </a>
@@ -57,17 +52,17 @@ export default function CardImage({
         </p>
         <div className="flex space-x-2 md:space-x-4 justify-center">
           <a
-            href="#"
+            href="href={`https://tpkiot.blob.core.windows.net/${containerName}/${image}`}"
             class="inline-flex shadow items-center px-4 md:px-7 py-2 text-sm font-medium text-center text-white bg-[#274C5B] rounded-lg hover:bg-black"
           >
             Save
           </a>
-          <a
-            href="#"
+          <button
+            onClick={handleDelete}
             class="inline-flex shadow items-center px-3 md:px-6 py-2 text-sm font-medium text-center text-black bg-white rounded-lg hover:bg-black hover:text-white"
           >
             Delete
-          </a>
+          </button>
         </div>
       </div>
     </div>
