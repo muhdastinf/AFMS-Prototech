@@ -3,7 +3,7 @@
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 import CardImage from "../components/CardImage";
-import style from "./page.module.css";
+import style from "../page.module.css";
 
 import { Yellowtail } from "next/font/google";
 
