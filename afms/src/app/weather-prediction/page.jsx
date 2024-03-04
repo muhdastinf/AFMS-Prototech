@@ -406,10 +406,7 @@ export default function WeatherPrediction() {
     <>
       <Navbar />
       <div className="mt-28 mb-8 flex flex-col md:flex-row gap-2 justify-between mx-6 md:mx-20 md:my-24">
-        <div
-          className="flex flex-col md:w-3/4 gap-6"
-          data-aos="fade-up"
-        >
+        <div className="flex flex-col md:w-3/4 gap-6" data-aos="fade-up">
           <div className="flex flex-col gap-2">
             <div className="flex flex-row">
               <Image
@@ -475,7 +472,11 @@ export default function WeatherPrediction() {
                 className=""
               />
             </div>
-            <div className="absolute inset-0 flex flex-col p-3 items-start justify-start text-white text-sm gap-2">
+            <div className="absolute inset-0 flex flex-col p-6 justify-start text-white text-sm gap-4">
+              <div className="text-center my-2">
+                <p className="font-bold text-lg">Weather Dashboard</p>
+              </div>
+
               <div className="">
                 <p className="font-semibold">Current Weather</p>
                 <p className="font-light">{weatherFix}</p>
