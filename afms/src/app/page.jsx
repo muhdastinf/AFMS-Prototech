@@ -1,83 +1,60 @@
 "use client";
 
-import Footer from "./components/Footer";
 import Navbar from "./components/Navbar";
-import CardImage from "./components/CardImage";
-import style from "./page.module.css";
+import Footer from "./components/Footer";
+import { Sarabun } from "next/font/google";
 
-import { Yellowtail } from "next/font/google";
+const sarabun = Sarabun({ weight: "800", subsets: ["latin"] });
 
-import Image from "next/image";
-
-const yellowtail = Yellowtail({ weight: "400", subsets: ["latin"] });
-
-export default function Home() {
+export default function Login() {
   return (
     <>
-      <Navbar />
-      <div className="relative mt-20 mb-8">
-        <div className="flex relative">
-          <Image
-            src="/landing-page-fix1.png"
-            width={950}
-            height={400}
-            alt="Landing Page"
-            className={`z-0 ${style.ResponsiveImage}`}
-            data-aos="fade-right"
-          />
-          <div
-            className="absolute opacity-90 md:opacity-100 top-6 right-8 ml-6 z-6 pt-6 pr-6 pl-6 pb-6 md:z-10 md:right-12 md:top-16 md:pl-8 md:pr-2 md:pt-8 md:pb-8 bg-white text-[#274C5B] text-wrap rounded-xl flex justify-center items-center md:h-100 md:w-2/5"
-            data-aos="zoom-in-up"
-          >
-            <div className="flex flex-col gap-1 md:gap-2">
-              <p
-                className={`${yellowtail.className} text-base md:text-2xl text-[#7EB693]`}
-              >
-                Eco Friendly
-              </p>
-              <h1 className="text-xl md:text-3xl font-extrabold mb:1 md:mb-2">
-                Automated Farming Management System
-              </h1>
-              <div>
-                <p className="text-sm md:text-base font-bold">
-                  Weather Prediction
-                </p>
-                <p className="text-xs md:text-sm font-light">
-                  Sistem akan menampilkan hasil prediksi cuaca dari BMKG yang
-                  digunakan untuk melakukan perairan
-                </p>
-              </div>
-              <div>
-                <p className="text-sm md:text-base font-bold">
-                  Soil Moisture Monitoring
-                </p>
-                <p className="text-xs md:text-sm text-sm font-light">
-                  Sistem akan menampilkan kelembapan data tanah
-                </p>
-              </div>
-              <div>
-                <p className="text-sm md:text-base font-bold">
-                  Pest Monitoring
-                </p>
-                <p className="text-xs md:text-sm font-light">
-                  Sistem akan menampilkan hasil tangkapan gambar dari ESP32
-                  untuk mendeteksi adanya hama atau tidak
-                </p>
-              </div>
-              <div>
-                <p className="text-sm md:text-base font-bold">
-                  Servo and LED UV Monitoring
-                </p>
-                <p className="text-xs md:text-sm font-light">
-                  Sistem akan menampilkan apakah servo dan LED UV aktif atau
-                  tidak
-                </p>
-              </div>
-            </div>
+      <div className=" flex md:flex-row flex-col pt-14 bg-[#E6FFEE] md:min-h-svh md:space-x-28 md:justify-center items-center md:items-start md:gap-8 ">
+        <div className={`${sarabun.className} flex flex-col md:text-[35px] text-[25px] w-[30rem] md:items-start items-center`}>
+          <div className="mb-2 md:w-full w-full md:text-wrap text-[24px] md:text-[32px] md:text-start text-center">
+            <h1>Welcome to</h1>
+            <h1>
+              Automated Farming Management System
+            </h1>
           </div>
+
+          <img
+            src="/farminglogin.png"
+            alt="Gambar Smart Farming"
+            className="md:w-[30rem] w-full"
+          />
         </div>
+
+        <form className="flex-row md:w-[22rem] w-[30rem] md:mt-20 mt-8 mb-10">
+          <div className="font-bold text-xl mb-5">Sign In</div>
+          <div className="mb-5">
+            <input
+              type="text"
+              id="address1"
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              placeholder="Mac Address 1"
+              required
+            />
+          </div>
+          <div className="mb-5">
+            <input
+              type="text"
+              id="address2"
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              placeholder="Mac Address 2"
+              required
+            />
+          </div>
+          <div className="mb-5">
+            <button
+              type="submit"
+              className="text-white bg-[#274C5B] hover:bg-white hover:text-black hover:border-[#274C5B] hover:border-2 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-6 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+            >
+              Sign In
+            </button>
+          </div>
+        </form>
       </div>
-      <Footer />
     </>
   );
 }
