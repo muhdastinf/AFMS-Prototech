@@ -2,8 +2,16 @@
 
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import { useRouter } from "next/navigation";
+import Cookies from "js-cookie";
 
 export default function SoilMonitor() {
+  const router = useRouter();
+
+  if (!Cookies.get("loggedmacaddress")) {
+    router.push("/");
+  }
+
   return (
     <>
       <Navbar />

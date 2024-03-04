@@ -2,8 +2,16 @@
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import styles from "./page.module.css";
+import { useRouter } from "next/navigation";
+import Cookies from "js-cookie";
 
 export default function OurTeam() {
+  const router = useRouter();
+
+  if (!Cookies.get("loggedmacaddress")) {
+    router.push("/");
+  }
+
   return (
     <>
       <Navbar />

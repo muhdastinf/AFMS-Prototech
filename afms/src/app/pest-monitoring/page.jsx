@@ -5,6 +5,8 @@ import Footer from "../components/Footer";
 import CardImage from "../components/CardImage";
 import { BlobServiceClient } from "@azure/storage-blob";
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import Cookies from "js-cookie";
 
 export default function PestMonitoring() {
   const [images, setImages] = useState([]);
@@ -16,6 +18,12 @@ export default function PestMonitoring() {
   const blobServiceClient =
     BlobServiceClient.fromConnectionString(connectionString);
   const containerClient = blobServiceClient.getContainerClient(containerName);
+
+  const router = useRouter();
+
+  if (!Cookies.get("loggedmacaddress")) {
+    router.push("/");
+  }
 
   useEffect(() => {
     const fetchImages = async () => {

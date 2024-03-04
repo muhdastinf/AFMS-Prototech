@@ -2,6 +2,8 @@
 
 import { useState, useEffect } from "react";
 import { ChevronLeft, ChevronRight } from "react-feather";
+import { useRouter } from "next/navigation";
+import Cookies from "js-cookie";
 
 export default function CarouselDashboard({
   autoSlide = false,
@@ -11,6 +13,12 @@ export default function CarouselDashboard({
   overlayText = "",
 }) {
   const [curr, setCurr] = useState(0);
+
+  const router = useRouter();
+
+  if (!Cookies.get("loggedmacaddress")) {
+    router.push("/");
+  }
 
   const prev = () =>
     setCurr((curr) => (curr === 0 ? slides.length - 1 : curr - 1));
@@ -39,9 +47,7 @@ export default function CarouselDashboard({
             src={img}
             alt=""
             className="object-cover object-center h-[19rem] w-full"
-            
           />
-          
         ))}
       </div>
       <div className="absolute inset-0 flex items-center justify-between p-2">

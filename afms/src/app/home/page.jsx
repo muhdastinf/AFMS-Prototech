@@ -4,6 +4,8 @@ import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 import CardImage from "../components/CardImage";
 import style from "../page.module.css";
+import Cookies from "js-cookie";
+import { useRouter } from "next/navigation";
 
 import { Yellowtail } from "next/font/google";
 
@@ -12,6 +14,12 @@ import Image from "next/image";
 const yellowtail = Yellowtail({ weight: "400", subsets: ["latin"] });
 
 export default function Home() {
+  const router = useRouter();
+
+  if (!Cookies.get("loggedmacaddress")) {
+    router.push("/");
+  }
+
   return (
     <>
       <Navbar />
