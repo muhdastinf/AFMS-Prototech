@@ -21,6 +21,7 @@ import {
   CloudRainHeavyFill,
   CloudRainFill,
   CloudDrizzleFill,
+  BrightnessHighFill
 } from "react-bootstrap-icons";
 
 const formatDatetime = (datetime) => {
