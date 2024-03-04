@@ -15,7 +15,7 @@ export default function NotFound() {
           <h1 className={style.c404}>404</h1>
           <h2 className={style.NotFound}>Page not found</h2>
           <p className={`font-semibold ${style.Paragraf}`}>
-            The page you are looking for doesn't exist or has been moved
+            The page you are looking for doesn&apos;t exist or has been moved
           </p>
           <div class="flex flex-row justify-center space-y-0">
             <a

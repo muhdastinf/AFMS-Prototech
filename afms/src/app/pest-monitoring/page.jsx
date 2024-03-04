@@ -75,6 +75,7 @@ export default function PestMonitoring() {
                 containerName={containerName}
                 imageName={image}
                 handleDelete={() => deleteImage(image)}
+                key={index}
               />
             ))}
           </div>
