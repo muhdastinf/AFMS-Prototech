@@ -1,8 +1,7 @@
 "use client";
 
-import Footer from "../components/Footer";
-import Navbar from "../components/Navbar";
-import CardImage from "../components/CardImage";
+import Footer from "../../components/Footer";
+import Navbar from "../../components/Navbar";
 import style from "../page.module.css";
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";

@@ -1,10 +1,10 @@
 "use client";
 
-import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
+import Navbar from "../../components/Navbar";
+import Footer from "../../components/Footer";
 import { useState, useEffect } from "react";
 import { Roboto } from "next/font/google";
-import CardComponents from "../components/CardComponents";
+import CardComponents from "../../components/CardComponents";
 import { Client } from "paho-mqtt";
 import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";

@@ -1,8 +1,8 @@
 "use client";
 
-import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
-import CardImage from "../components/CardImage";
+import Navbar from "../../components/Navbar";
+import Footer from "../../components/Footer";
+import CardImage from "../../components/CardImage";
 import { BlobServiceClient } from "@azure/storage-blob";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";

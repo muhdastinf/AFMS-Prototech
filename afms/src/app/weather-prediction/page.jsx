@@ -2,8 +2,8 @@
 
 import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
-import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
+import Navbar from "../../components/Navbar";
+import Footer from "../../components/Footer";
 import Image from "next/image";
 import axios from "axios";
 import Chart from "chart.js/auto";
@@ -21,7 +21,7 @@ import {
   CloudRainHeavyFill,
   CloudRainFill,
   CloudDrizzleFill,
-  BrightnessHighFill
+  BrightnessHighFill,
 } from "react-bootstrap-icons";
 
 const formatDatetime = (datetime) => {

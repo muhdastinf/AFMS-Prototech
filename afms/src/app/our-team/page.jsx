@@ -1,6 +1,6 @@
 "use client";
-import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
+import Navbar from "../../components/Navbar";
+import Footer from "../../components/Footer";
 import styles from "./page.module.css";
 import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
